@@ -1,0 +1,10 @@
+.form {
+  width: 100%;
+  border: 3px solid #adadad;
+  margin-top: 25px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

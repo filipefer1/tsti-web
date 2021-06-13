@@ -63,3 +63,13 @@ export const createOrder = async (data) => {
     throw new Error(err.message);
   }
 };
+
+export const listOrdens = async () => {
+  try {
+    const { data } = await api.get("/ordem-servico/client/1");
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};

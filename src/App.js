@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Header } from "./components/Header";
-import { Home } from "./pages/home";
+import CadastrarOrdem from "./pages/CadastrarOrdem";
+import ListarOrdens from "./pages/ListarOrdens";
 import { getDevs, getAdmins, getOrderOfServices } from "./services/axios";
 
 function App() {
@@ -12,7 +13,8 @@ function App() {
   return (
     <>
       <Header />
-      <Home />
+      {/* <CadastrarOrdem /> */}
+      <ListarOrdens />
     </>
   );
 }
