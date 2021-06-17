@@ -1,8 +1,9 @@
 import { useEffect } from "react";
-import { Header } from "./components/Header";
+
 import CadastrarOrdem from "./pages/CadastrarOrdem";
 import ListarOrdens from "./pages/ListarOrdens";
 import { getDevs, getAdmins, getOrderOfServices } from "./services/axios";
+import { Routes } from "./routes";
 
 function App() {
   useEffect(() => {
@@ -12,9 +13,7 @@ function App() {
   }, []);
   return (
     <>
-      <Header />
-      {/* <CadastrarOrdem /> */}
-      <ListarOrdens />
+      <Routes />
     </>
   );
 }

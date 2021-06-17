@@ -1,3 +1,14 @@
 .nav {
   margin-left: 50%;
 }
+
+nav.navbar {
+  background: #342c5f;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 2;
+}
