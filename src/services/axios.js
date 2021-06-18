@@ -73,3 +73,34 @@ export const listOrdens = async () => {
     throw new Error(err.message);
   }
 };
+
+export const OrdemDetails = async (ordemId) => {
+  try {
+    const { data } = await api.get(`/ordem-servico/client/${ordemId}/details`);
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};
+
+export const listOrdensAdmin = async () => {
+  try {
+    const { data } = await api.get(`/ordem-servico`);
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};
+
+export const updateOrder = async (data, id) => {
+  try {
+    console.log("\x1b[35m", { request: data });
+    await api.patch(`/ordem-servico/${id}`, data);
+    return;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};

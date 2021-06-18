@@ -9,7 +9,7 @@ export const NavBar = () => {
       <ActiveLink to="/">
         <p>
           <FiUsers />
-          Lista de ordems
+          Lista de ordens
         </p>
       </ActiveLink>
 
