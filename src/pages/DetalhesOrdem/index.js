@@ -1,24 +1,29 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { OrdemDetails } from "../../services/axios";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Spinner, Button } from "react-bootstrap";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
+import { OrdemDetails, getFeedback } from "../../services/axios";
+import { ButtonOpenChat } from "../../components/Button";
+import Modal from "../../components/Modal";
+import { useChatModal } from "../../context/ChatModalContext";
+
 import "./style.css";
 
 const DetalhesOrdem = () => {
+  const { toggleModal, messages, setMessages } = useChatModal();
+
   const [ordem, setOrdem] = useState();
   const params = useParams();
 
   useEffect(() => {
     (async () => {
-      const response = await OrdemDetails(params.id);
+      const ordem = await OrdemDetails(params.id);
 
       const data = {
-        ...response,
-        createdAt: new Date(response.createdAt).toLocaleDateString("pt-BR", {
+        ...ordem,
+        createdAt: new Date(ordem.createdAt).toLocaleDateString("pt-BR", {
           day: "numeric",
           month: "long",
           year: "numeric",
@@ -28,6 +33,16 @@ const DetalhesOrdem = () => {
       setOrdem(data);
     })();
   }, [params.id]);
+
+  useEffect(() => {
+    (async () => {
+      const feedback = await getFeedback(params.id);
+
+      setMessages(feedback);
+    })();
+  }, [params.id]);
+
+  console.log({ messages });
 
   if (!ordem) {
     return (
@@ -53,7 +68,7 @@ const DetalhesOrdem = () => {
         </div>
         <header className="d-flex justify-content-between mb-4 ">
           <div>
-            <h4>Name</h4>
+            <h4>Nome</h4>
             <p className="text-muted">{ordem?.cliente.name}</p>
           </div>
 
@@ -65,10 +80,10 @@ const DetalhesOrdem = () => {
       </div>
 
       <div>
-        <h4>Title</h4>
+        <h4>Título</h4>
         <p className="text-muted"> {ordem?.title}</p>
 
-        <h4>Description</h4>
+        <h4>Descrição</h4>
         <p className="text-muted">{ordem?.description}</p>
 
         <h4>Status</h4>
@@ -82,6 +97,12 @@ const DetalhesOrdem = () => {
         <h4>Sistema</h4>
         <p className="text-muted">{ordem?.sistema.name}</p>
       </div>
+      <ButtonOpenChat onClick={toggleModal} />
+      <Modal
+        clientName={ordem?.cliente.name}
+        clientId={ordem?.cliente?.id}
+        orderId={ordem?.id}
+      />
     </section>
   );
 };

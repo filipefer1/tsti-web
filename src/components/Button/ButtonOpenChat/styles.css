@@ -1,0 +1,20 @@
+button.open-button-chat {
+  width: 60px;
+  height: 60px;
+
+  background: #342c5f;
+  color: #fff;
+
+  position: fixed;
+  bottom: 24px;
+  right: 50px;
+
+  border: 0;
+  border-radius: 50%;
+
+  transition: opacity 0.2s ease-in;
+}
+
+button.open-button-chat:hover {
+  opacity: 0.9;
+}

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Table, Spinner, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import { listOrdensAdmin } from "../../services/axios";
+import { listOrdensDev } from "../../services/axios";
 import { FiFrown } from "react-icons/fi";
 
 import "./styles.css";
 
-const ListarOrdensAdmin = () => {
+const ListarOrdensDev = () => {
   const [ordens, setOrdens] = useState([]);
   const [statusRequest, setStatusRequest] = useState({
     status: "",
@@ -21,7 +21,7 @@ const ListarOrdensAdmin = () => {
           status: "pending",
         });
 
-        const result = await listOrdensAdmin();
+        const result = await listOrdensDev();
 
         if (result.lenght) {
           return setStatusRequest({
@@ -72,7 +72,7 @@ const ListarOrdensAdmin = () => {
           <th>Categoria</th>
           <th>Sistema</th>
           <th>Nome do cliente</th>
-          <th>Escolher desenvolvedor</th>
+          <th>Detalhes</th>
         </tr>
       </thead>
       <tbody>
@@ -92,7 +92,7 @@ const ListarOrdensAdmin = () => {
                     style={{ backgroundColor: "#251f46", border: "none" }}
                     onClick={() => handleClick(item.id)}
                   >
-                    <span>Clique aqui</span>
+                    <span>Detalhes</span>
                   </Button>
                 </td>
               </tr>
@@ -103,4 +103,4 @@ const ListarOrdensAdmin = () => {
   );
 };
 
-export default ListarOrdensAdmin;
+export default ListarOrdensDev;

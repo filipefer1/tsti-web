@@ -94,11 +94,45 @@ export const listOrdensAdmin = async () => {
   }
 };
 
+export const listOrdensDev = async () => {
+  try {
+    const { data } = await api.get(`/ordem-servico/dev/2`);
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};
+
 export const updateOrder = async (data, id) => {
   try {
     console.log("\x1b[35m", { request: data });
     await api.patch(`/ordem-servico/${id}`, data);
     return;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};
+
+export const getFeedback = async (orderId) => {
+  try {
+    const { data } = await api.get(`/feedback/${orderId}?clientId=1`);
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};
+
+export const postMessageClient = async ({ orderId, clientId, content }) => {
+  try {
+    const { data } = await api.post(`/feedback/`, {
+      orderId,
+      content,
+      clientId,
+    });
+    return data;
   } catch (err) {
     console.log(err);
     throw new Error(err.message);

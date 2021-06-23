@@ -55,7 +55,7 @@ const CadastrarOrdem = () => {
         <Form.Group controlId="description" className="col-md-12">
           <Form.Label>Descrição</Form.Label>
           <Form.Control
-            {...register("description", { required: true, maxLength: 255 })}
+            {...register("description", { required: true, maxLength: 500 })}
             type="input"
           />
         </Form.Group>
