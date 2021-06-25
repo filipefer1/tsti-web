@@ -43,7 +43,7 @@ const ListarOrdensDev = () => {
   }, []);
 
   function handleClick(id) {
-    history.push(`/admin/${id}`);
+    history.push(`/dev/details/${id}`);
   }
   if (statusRequest.status !== "success") {
     return (

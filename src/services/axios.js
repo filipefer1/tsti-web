@@ -12,7 +12,6 @@ export const getDevs = async () => {
 export const getAdmins = async () => {
   try {
     const { data } = await api.get("/admins");
-    console.log("\x1b[35m", data);
     return data;
   } catch (err) {
     throw new Error(err.message);
@@ -22,7 +21,6 @@ export const getAdmins = async () => {
 export const getOrderOfServices = async () => {
   try {
     const { data } = await api.get("/ordem-servico");
-    console.log("\x1b[35m", data);
     return data;
   } catch (err) {
     throw new Error(err.message);
@@ -32,7 +30,6 @@ export const getOrderOfServices = async () => {
 export const getCategories = async () => {
   try {
     const { data } = await api.get("/categories");
-    console.log("\x1b[35m", data);
     return data;
   } catch (err) {
     throw new Error(err.message);
@@ -42,7 +39,6 @@ export const getCategories = async () => {
 export const getSystems = async () => {
   try {
     const { data } = await api.get("/systems");
-    console.log("\x1b[35m", data);
     return data;
   } catch (err) {
     throw new Error(err.message);
@@ -51,7 +47,6 @@ export const getSystems = async () => {
 
 export const createOrder = async (data) => {
   try {
-    console.log("\x1b[35m", { request: data });
     await api.post("/ordem-servico", data, {
       headers: {
         "content-type": "multipart/form-data",
@@ -132,6 +127,30 @@ export const postMessageClient = async ({ orderId, clientId, content }) => {
       content,
       clientId,
     });
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};
+
+export const postMessageDev = async ({ orderId, devId, content }) => {
+  try {
+    const { data } = await api.post(`/feedback/`, {
+      orderId,
+      content,
+      devId,
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err.message);
+  }
+};
+
+export const finishOrder = async (orderId) => {
+  try {
+    const { data } = await api.patch(`/ordem-servico/finish/${orderId}`);
     return data;
   } catch (err) {
     console.log(err);

@@ -17,3 +17,14 @@ section.details-ordem-section header {
 
   border-bottom: 1px solid #ccc;
 }
+
+section.details-ordem-section header > div p {
+  border-bottom: 1px solid transparent;
+}
+
+.container-button {
+  display: flex;
+  flex-direction: "row";
+  justify-content: center;
+  padding-bottom: 25px;
+}

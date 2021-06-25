@@ -7,13 +7,18 @@ import {
 } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
-import { postMessageClient } from "../../services/axios";
+import { postMessageClient, postMessageDev } from "../../services/axios";
 import { useChatModal } from "../../context/ChatModalContext";
 import MessageBox from "./MessageBox";
 
 import "./styles.css";
 
-export default function Modal({ clientName, clientId, orderId }) {
+export default function Modal({
+  clientName,
+  clientId,
+  orderId,
+  typeClient = "client",
+}) {
   const ModalBodyRef = useRef(null);
 
   const { toggleModal, showModal, messages, setMessages } = useChatModal();
@@ -29,11 +34,23 @@ export default function Modal({ clientName, clientId, orderId }) {
     try {
       console.log(message);
 
-      const feedback = await postMessageClient({
-        clientId,
-        orderId,
-        content: message,
-      });
+      let feedback = {};
+
+      if (typeClient === "dev") {
+        feedback = await postMessageDev({
+          devId: "2",
+          orderId,
+          content: message,
+        });
+
+        console.log({ feedback });
+      } else {
+        feedback = await postMessageClient({
+          clientId,
+          orderId,
+          content: message,
+        });
+      }
 
       reset(feedback);
 
@@ -42,8 +59,6 @@ export default function Modal({ clientName, clientId, orderId }) {
       alert(error.message);
     }
   };
-
-  console.log(messages);
 
   return (
     <ModalBoostrap
@@ -60,9 +75,14 @@ export default function Modal({ clientName, clientId, orderId }) {
         {messages.map((message) => (
           <MessageBox
             key={message.id}
+            clientOrDevName={message?.client?.name || message?.dev?.name}
             message={message.content}
             date={message.createdAt}
-            position={message?.client?.id === clientId ? "right" : "left"}
+            position={
+              message?.dev?.id === clientId || message?.client?.id === clientId
+                ? "right"
+                : "left"
+            }
           />
         ))}
       </ModalBoostrap.Body>

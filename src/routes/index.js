@@ -8,6 +8,7 @@ const DetalhesOrdem = lazy(() => import("../pages/DetalhesOrdem"));
 const ListarOrdensAdmin = lazy(() => import("../pages/ListarOrdensAdmin"));
 const UpdateOrdemAdmin = lazy(() => import("../pages/UpdateOrdemAdmin"));
 const ListarOrdensDev = lazy(() => import("../pages/ListarOrdensDev"));
+const DetalhesOrdemDev = lazy(() => import("../pages/DetalhesOrdemDev"));
 
 export const Routes = () => {
   return (
@@ -31,6 +32,9 @@ export const Routes = () => {
           </Suspense>
           <Suspense fallback="Carregando">
             <Route exact path="/dev" component={ListarOrdensDev} />
+          </Suspense>
+          <Suspense fallback="Carregando">
+            <Route exact path="/dev/details/:id" component={DetalhesOrdemDev} />
           </Suspense>
         </Layout>
       </Switch>

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Form, Button, Container, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { createOrder, getCategories, getSystems } from "../../services/axios";
+import { useHistory } from "react-router-dom";
 import "./style.css";
 
 const CadastrarOrdem = () => {
+  const history = useHistory();
   const [categories, setCategories] = useState([]);
   const [systems, setSystems] = useState([]);
   const {
@@ -35,7 +37,9 @@ const CadastrarOrdem = () => {
       formData.append("sistemaId", data.system);
       formData.append("clienteId", "1");
 
-      return createOrder(formData);
+      await createOrder(formData);
+
+      history.push("/");
     } catch (error) {
       alert(error.message);
     }
@@ -62,9 +66,13 @@ const CadastrarOrdem = () => {
 
         <Form.Group controlId="category" className="col-md-12">
           <Form.Label>Categoria</Form.Label>
-          <Form.Control as="select" {...register("category")}>
+          <Form.Control
+            className="custom-select"
+            as="select"
+            {...register("category", { required: true })}
+          >
             {categories.length > 0 &&
-              categories.map((item) => (
+              categories.map((item, index) => (
                 <option key={item.id} value={item.id}>
                   {item.title}
                 </option>
@@ -74,9 +82,13 @@ const CadastrarOrdem = () => {
 
         <Form.Group controlId="system" className="col-md-12">
           <Form.Label>Sistema</Form.Label>
-          <Form.Control {...register("system")} as="select">
+          <Form.Control
+            className="custom-select"
+            {...register("system", { required: true })}
+            as="select"
+          >
             {systems.length > 0 &&
-              systems.map((item) => {
+              systems.map((item, index) => {
                 return (
                   <option key={item.id} value={item.id}>
                     {item.name}

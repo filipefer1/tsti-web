@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Container, Spinner, Button } from "react-bootstrap";
+import { useParams, useHistory } from "react-router-dom";
+import { Spinner, Button } from "react-bootstrap";
 import { FiArrowLeft } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-import { OrdemDetails, getFeedback } from "../../services/axios";
+import { OrdemDetails, getFeedback, finishOrder } from "../../services/axios";
 import { ButtonOpenChat } from "../../components/Button";
 import Modal from "../../components/Modal";
 import { useChatModal } from "../../context/ChatModalContext";
 
 import "./style.css";
 
-const DetalhesOrdem = () => {
+const DetalhesOrdemDev = () => {
   const { toggleModal, messages, setMessages } = useChatModal();
+  const history = useHistory();
 
   const [ordem, setOrdem] = useState();
   const params = useParams();
@@ -28,20 +29,13 @@ const DetalhesOrdem = () => {
           month: "long",
           year: "numeric",
         }),
-        finishedAt: ordem.finishedAt
-          ? new Date(ordem.finishedAt).toLocaleDateString("pt-BR", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })
-          : null,
       };
 
       setOrdem(data);
     })();
   }, [params.id]);
 
-  console.log(ordem);
+  console.log({ ordem, messages });
 
   useEffect(() => {
     (async () => {
@@ -51,7 +45,10 @@ const DetalhesOrdem = () => {
     })();
   }, [params.id]);
 
-  console.log({ messages });
+  async function handleClick(id) {
+    await finishOrder(id);
+    history.goBack();
+  }
 
   if (!ordem) {
     return (
@@ -66,7 +63,7 @@ const DetalhesOrdem = () => {
     <section className="details-ordem-section">
       <div>
         <div className="d-flex justify-content-between align-items-center mb-4">
-          <h4>Cliente</h4>
+          <h4>Desenvolvedor</h4>
 
           <Link to="/">
             <Button variant="secondary" className="d-flex align-items-center">
@@ -85,13 +82,6 @@ const DetalhesOrdem = () => {
             <h4>Data de criação</h4>
             <p className="text-muted">{ordem?.createdAt}</p>
           </div>
-
-          {!!ordem.finishedAt && (
-            <div>
-              <h4>Finalizado em</h4>
-              <p className="text-muted">{ordem.finishedAt}</p>
-            </div>
-          )}
         </header>
       </div>
 
@@ -114,27 +104,27 @@ const DetalhesOrdem = () => {
         <p className="text-muted">{ordem?.sistema.name}</p>
       </div>
 
-      <div className="product-image">
-        {ordem?.image && (
-          <>
-            <h4>Imagem</h4>
-            <img
-              className="img-thumbnail client-image"
-              src={ordem?.image.destination}
-              alt=""
-            />
-          </>
-        )}
+      <div className="container-button">
+        <Button
+          variant="primary"
+          type="submit"
+          size="g"
+          style={{ backgroundColor: "#251f46", border: "none" }}
+          onClick={() => handleClick(params.id)}
+        >
+          <span>Finalizar ordem</span>
+        </Button>
       </div>
 
       <ButtonOpenChat onClick={toggleModal} />
       <Modal
         clientName={ordem?.cliente.name}
-        clientId={ordem?.cliente?.id}
+        clientId={ordem?.dev?.id}
         orderId={ordem?.id}
+        typeClient="dev"
       />
     </section>
   );
 };
 
-export default DetalhesOrdem;
+export default DetalhesOrdemDev;

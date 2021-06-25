@@ -42,6 +42,16 @@
 
   padding: 8px;
 }
+.message-container .message-box .message-clientName {
+  display: flex;
+  justify-content: space-between;
+}
+
+.message-container .message-box .message-clientName p.message-name {
+  min-width: 62px;
+  color: #5d5d5d;
+  text-align: right;
+}
 
 .message-container .message-box footer {
   position: relative;
